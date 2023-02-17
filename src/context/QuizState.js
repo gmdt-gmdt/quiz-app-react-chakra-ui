@@ -15,11 +15,11 @@ const QuizState = props => {
     try {
       const response = await fetch(apiUrl);
       const data = await response.json();
-      const results = data.results;
+      const {results} = data;
       setQuestions(results);
       setLoading(false);
     } catch (error) {
-      console.error(error);
+      //console.error('❌ 🔴', error);
     }
   };
 

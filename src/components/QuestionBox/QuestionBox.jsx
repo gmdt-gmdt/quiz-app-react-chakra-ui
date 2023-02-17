@@ -24,16 +24,14 @@ const QuestionBox = props => {
 
     for (let i = 0; i < element.length; i++) {
       for (let j = 0; j < element[i].children.length; j++) {
-        element[i].children[j].classList.remove('optionSelected');
+        element[i]?.children[j]?.classList?.remove('optionSelected');
       }
     }
   };
 
   //Update the score
   const checkAnswer = selectedAns => {
-    if (selectedAns === '') {
-      return true;
-    } else if (selectedAns === options[1]) {
+    if (selectedAns === options[1]) {
       setScore({ ...score, rightAnswers: score.rightAnswers + 1 });
     } else {
       setScore({ ...score, wrongAnswers: score.wrongAnswers + 1 });
@@ -45,7 +43,7 @@ const QuestionBox = props => {
     removeClass();
     setSelectedAns(e.target.innerText.slice(1).trim());
     const currentAlpha = e.target.innerText[0];
-    document.getElementById(currentAlpha).classList.add('optionSelected');
+    document.getElementById(currentAlpha)?.classList?.add('optionSelected');
   };
 
   const handleNextQuestion = () => {
@@ -57,10 +55,10 @@ const QuestionBox = props => {
     setAnswerList([
       ...answerList,
       {
-        question: question,
+        question,
         options: options[0],
         id: `id${next}`,
-        category: category,
+        category,
         myAnswer: selectedAns,
         rightAnswer: options[1],
       },
@@ -68,14 +66,29 @@ const QuestionBox = props => {
   };
 
   // for reverse timer
-  const [timer, setTimer] = useState(30);
+  const [timer, setTimer] = useState(10);
 
   useEffect(() => {
     let myInterval = setInterval(() => {
       if (timer > 0) {
         setTimer(timer - 1);
       } else {
+        checkAnswer(selectedAns);
         setNext(next + 1);
+
+        setAnswerList([
+          ...answerList,
+          {
+            question,
+            options: options[0],
+            id: `id${next}`,
+            category,
+            myAnswer: selectedAns,
+            rightAnswer: options[1],
+          },
+        ]);
+
+        setSelectedAns('')
       }
     }, 1000);
     return () => {

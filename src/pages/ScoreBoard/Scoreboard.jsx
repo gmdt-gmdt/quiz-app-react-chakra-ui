@@ -109,6 +109,13 @@ const Scoreboard = props => {
             </div>
             <div className="footer-text">Play Again</div>
           </div>
+          {/* ici on garde les memes param de formula de beginning */}
+          <div className="text-center" onClick={handlePlayAgain}>
+            <div style={{ backgroundColor: '#5492B3' }} className="home-btn">
+              <BiReset />
+            </div>
+            <div className="footer-text">Make new game</div>
+          </div>
         </div>
       </div>
     </>
