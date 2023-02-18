@@ -88,7 +88,7 @@ const QuestionBox = props => {
           },
         ]);
 
-        setSelectedAns('')
+        setSelectedAns('');
       }
     }, 1000);
     return () => {

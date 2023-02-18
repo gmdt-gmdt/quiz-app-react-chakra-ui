@@ -1,14 +1,15 @@
 import React, { useContext } from 'react';
 import './Scoreboard.css';
 import { AiOutlineHome, AiOutlineEye } from 'react-icons/ai';
-import { BiReset } from 'react-icons/bi';
+import { BiReset, BiRedo } from 'react-icons/bi';
 import quizContext from '../../context/quizContext';
 import { Link as ReachLink } from 'react-router-dom';
 import { BsShare } from 'react-icons/bs';
 
 const Scoreboard = props => {
   const context = useContext(quizContext);
-  const { setNext, setScore, setAnswerList } = context;
+  const { setNext, setScore, setAnswerList, setQuestions, setLoading, url } =
+    context;
   const { total_que, correct_que, wrong_que } = props;
   let percentage = (correct_que / total_que) * 100;
   let Attempted = ((correct_que + wrong_que) / total_que) * 100;
@@ -22,6 +23,23 @@ const Scoreboard = props => {
     setScore({ rightAnswers: 0, wrongAnswers: 0 });
     setAnswerList([]);
   };
+
+  const handleStartAgain = async () => {
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      const { results } = data;
+      setQuestions(results);
+      setLoading(false);
+
+      setNext(0);
+      setScore({ rightAnswers: 0, wrongAnswers: 0 });
+      setAnswerList([]);
+    } catch (error) {
+      console.error('❌ 🔴', error);
+    }
+  };
+
   return (
     <>
       <div className="main">
@@ -90,6 +108,7 @@ const Scoreboard = props => {
             <div className="footer-text">Home</div>
           </div>
           <div className="text-center">
+            {/* todo: implement */}
             <div style={{ backgroundColor: '#755ED3' }} className="home-btn">
               <BsShare />
             </div>
@@ -103,7 +122,7 @@ const Scoreboard = props => {
             </ReachLink>
             <div className="footer-text">Review Answer</div>
           </div>
-          <div className="text-center" onClick={handlePlayAgain}>
+          <div className="text-center" onClick={handleStartAgain}>
             <div style={{ backgroundColor: '#5492B3' }} className="home-btn">
               <BiReset />
             </div>
@@ -112,9 +131,9 @@ const Scoreboard = props => {
           {/* ici on garde les memes param de formula de beginning */}
           <div className="text-center" onClick={handlePlayAgain}>
             <div style={{ backgroundColor: '#5492B3' }} className="home-btn">
-              <BiReset />
+              <BiRedo />
             </div>
-            <div className="footer-text">Make new game</div>
+            <div className="footer-text">Redo</div>
           </div>
         </div>
       </div>

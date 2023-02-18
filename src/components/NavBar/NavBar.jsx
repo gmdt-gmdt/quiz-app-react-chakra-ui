@@ -9,11 +9,14 @@ import {
   Stack,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
-import logo from './../../Assets/logo.png';
-import { Link as ReachLink } from 'react-router-dom';
+import logo from './../../Assets/knowledge.png';
+import { Link as ReachLink, useNavigate } from 'react-router-dom';
 
 export default function Simple() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
+
+  const goHome = () => navigate('/');
 
   return (
     <>
@@ -31,11 +34,12 @@ export default function Simple() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={'center'}>
-            <Avatar size={'sm'} src={logo} w={10} h={10} />
+            <Avatar onClick={goHome} size={'sm'} src={logo} w={10} h={10} />
             <HStack
               as={'nav'}
               spacing={4}
               display={{ base: 'none', md: 'flex' }}
+              fontWeight="bold"
             >
               <ReachLink
                 px={2}
@@ -61,32 +65,7 @@ export default function Simple() {
 
         {isOpen ? (
           <Box pb={4} display={{ md: 'none' }}>
-            <Stack as={'nav'} spacing={4}>
-              <ReachLink to="/">
-                <ReachLink
-                  px={2}
-                  py={1}
-                  rounded={'md'}
-                  _hover={{ textDecoration: 'none' }}
-                  key={'home'}
-                  to={'/about'}
-                >
-                  Home
-                </ReachLink>
-              </ReachLink>
-
-              <ReachLink to="/about">
-                <ReachLink
-                  px={2}
-                  py={1}
-                  rounded={'md'}
-                  _hover={{ textDecoration: 'none' }}
-                  key={'about'}
-                  to={'/about'}
-                >
-                  About
-                </ReachLink>
-              </ReachLink>
+            <Stack as={'nav'} spacing={4} textShadow="dark-lg">
               <ReachLink
                 px={2}
                 py={1}
